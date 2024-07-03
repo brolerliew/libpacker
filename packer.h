@@ -21,12 +21,13 @@ public:
     fs::path getDstPath(){return outputPath_;}
     std::vector<LddTreeNode> get_lddNodes(){return lddNodes_;};
     std::set<fs::path> get_lddPaths(){return lddPaths_;};
-    void addExtra(fs::path path);
-
+    bool addExtra(fs::path path);
+    std::set<fs::path> getExtra(){return srcDatasExtra_;}
     bool out_deb = false;
     bool out_rpm = false;
     bool out_appimg = false;
     bool out_zip = false;
+    bool out_dir = false;
 
     bool out_mac_app = false;
     bool out_mac_dmg = false;
@@ -41,11 +42,14 @@ public:
     std::string url = "http://www.linuxer.fyi";
     std::string contact = "brolerliew@gmail.com";
     fs::path icon;
+    uint8_t pack_status = 0;
 private:
     void doPackAppimg();
     void doPackDeb();
     void doPackZip();
     void doPackRpm();
+    void doPackDir();
+
     bool prepareBuildDir(fs::path prefix = fs::path(), std::set<fs::path> paths = std::set<fs::path>());
 
     fs::path srcBin_;
@@ -54,6 +58,9 @@ private:
 
     std::vector<LddTreeNode> lddNodes_;
     std::set<std::filesystem::path> lddPaths_;
+
+    std::set<fs::path> srcBinsExtra_;
+    std::set<fs::path> srcDatasExtra_;
 };
 
 #endif // PACKER_H
